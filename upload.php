@@ -1,10 +1,18 @@
 <?php
 
-    require './UploadedFile.php';
+require './UploadedFile.php';
 
-    $uploadedFile = new UploadedFile($_FILES);
-    $uploadedFile->save();
-    $count = $uploadedFile->getValue();
+$uploadedFile = new UploadedFile($_FILES);
+try {
+    $uploadedFile->save('avatar');
+
+} catch (Exception $exception) {
+    // echo $exception->getMessage();
+    echo "Je n’ai pas pu uploader votre avatar. Ressayez !";
+}
+
+$count = $uploadedFile->getValue();
+var_dump($count);
 
 ?>
 
@@ -12,26 +20,26 @@
 
 <body>
 
-    liste des images :
+liste des images :
 
-    <?php
+<?php
 
-    $rep=opendir("uploads/");
+$rep = opendir("uploads/");
 
-    while ($lect=readdir($rep)){
+while ($lect = readdir($rep)) {
 
-        if($lect != '.' && $lect != '..') {
+    if ($lect != '.' && $lect != '..') {
 
-            $url_img = "uploads/$lect";
+        $url_img = "uploads/$lect";
 
-            echo "<div><img src=\"$url_img\" height='100'></div>";
-
-        }
+        echo "<div><img src=\"$url_img\" height='100'></div>";
 
     }
-    ?>
 
-    Vous avez uploadé : <?=$count;?> images
+}
+?>
+
+Vous avez uploadé : <?= $count; ?> images
 
 </body>
 
